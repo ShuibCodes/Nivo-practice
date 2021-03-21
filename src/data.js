@@ -11,7 +11,7 @@ export const data = [
   },
   {
     statement: "it's sweet",
-    participation: 28,
+    participation: 15,
     stronglyAgree: 18,
     agree: 27,
     disagree: 1,

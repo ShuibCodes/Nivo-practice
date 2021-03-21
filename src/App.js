@@ -6,19 +6,18 @@ import {useState} from 'react'
 
 
 const App = () => {
+  const [value, setValue] = useState(data)
 
+
+  const clickHandler = () =>{
+    
+      console.log(
+          `all the peple that disagreed = ${data[0].disagree}`
+          
+
+      )
   
-
-  const somePredefinedFunction = () =>{
-      console.log(data.filter(d => d.participation < 40))
-
-      // console.log( data.map(d => {
-
-
-      //     return ` people that agree : ${d.agree}`
-      // }))
   }
-
 
   const [defs ,setDefs] = useState([
     {
@@ -32,7 +31,7 @@ const App = () => {
     }
 ]);
 
-const [toggle, setToggle] = useState(true)
+// const [toggle, setToggle] = useState(true)
 
 
   const handleClick = () =>{
@@ -59,7 +58,7 @@ const [toggle, setToggle] = useState(true)
     <div className="App">
     
       <ResponsiveMarimekko
-        data={data}
+        data={value}
         id="statement"
         value="participation"
         // was camel cased
@@ -92,7 +91,7 @@ const [toggle, setToggle] = useState(true)
           legendOffset: 36,
           legendPosition: "middle"
         }}
-        onClick={(data, event) => somePredefinedFunction(data)}
+        
         axisLeft={{
           orient: "left",
           tickSize: 5,
@@ -159,7 +158,12 @@ const [toggle, setToggle] = useState(true)
     >
     Click Me
     </button>
-
+    <button
+      onClick={() => clickHandler()}
+    
+    >
+      Who Disagreed?
+    </button>
     </div>
   );
 }
