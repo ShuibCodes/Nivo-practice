@@ -1,5 +1,5 @@
 export const data = [
-
+  
   
   {
     statement: "it's good",

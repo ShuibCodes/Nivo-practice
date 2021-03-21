@@ -7,8 +7,16 @@ import {useState} from 'react'
 
 const App = () => {
 
+  
+
   const somePredefinedFunction = () =>{
-      console.log(data)
+      console.log(data.filter(d => d.participation < 40))
+
+      // console.log( data.map(d => {
+
+
+      //     return ` people that agree : ${d.agree}`
+      // }))
   }
 
 
