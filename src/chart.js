@@ -8,7 +8,7 @@ import {useState} from 'react'
 const Chart = () => {
 
     
-  const [Content ,setContent] = useState(false)
+  const [Content ,setContent] = useState('')
 
     // const clickHandler = (data) =>{
 
@@ -82,7 +82,8 @@ const Chart = () => {
           console.log(
             `all the people that ${data["id"]} for ${data["key"]} = ${data["value"]}`
           );
-          setContent(`all the people that ${data["id"]} for ${data["key"]} = ${data["value"]}`)
+   
+          setContent(` ${data["key"]} = ${data["value"]}`)
         }}
         
         axisBottom={{
