@@ -11,10 +11,9 @@ const Chart = () => {
 
 
     const clickHandler = (data) =>{
-      const allData = data.key
-      const newData = data.value
-      console.log(allData)
-      console.log(newData)
+
+      console.log(`${data.key} = ${data.value}`)
+ 
     }
   
     const [defs ,setDefs] = useState([
