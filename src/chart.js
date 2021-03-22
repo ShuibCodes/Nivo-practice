@@ -3,21 +3,18 @@ import { ResponsiveMarimekko } from "@nivo/marimekko";
 import "./styles.css";
 import {data} from './data'
 import {useState} from 'react'
-import StateButton from './Button'
+// import StateButton from './Button'
 
 const Chart = () => {
 
-    const [value, setValue] = useState(data)
+    // const [value, setValue] = useState(data)
 
 
-    const clickHandler = () =>{
-      
-        console.log(
-            `all the people that disagreed for ${data[0].statement} = ${data[0].disagree}`
-            
-  
-        )
-    
+    const clickHandler = (data) =>{
+      const allData = data.key
+      const newData = data.value
+      console.log(allData)
+      console.log(newData)
     }
   
     const [defs ,setDefs] = useState([
@@ -59,7 +56,7 @@ const Chart = () => {
     return (
         <div    className="App">
           <ResponsiveMarimekko
-        data={value}
+        data={data}
         id="statement"
         value="participation"
         // was camel cased
@@ -83,6 +80,7 @@ const Chart = () => {
         ]}
         innerPadding={12}
         axisTop={null}
+        onClick={clickHandler}
         
         axisBottom={{
           orient: "bottom",
@@ -159,7 +157,7 @@ const Chart = () => {
     >
     Click Me
     </button>
-        <StateButton clickHandler={clickHandler}  />
+        {/* <StateButton clickHandler={clickHandler}  /> */}
         </div>
       
         
