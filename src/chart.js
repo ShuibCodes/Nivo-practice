@@ -7,14 +7,14 @@ import {useState} from 'react'
 
 const Chart = () => {
 
-    // const [value, setValue] = useState(data)
+    
+  const [Content ,setContent] = useState(false)
 
+    // const clickHandler = (data) =>{
 
-    const clickHandler = (data) =>{
-
-      console.log(`${data.key} = ${data.value}`)
- 
-    }
+    //   console.log(`${data.key} = ${data.value}`)
+    //   setContent( <p>`${data.key} = ${data.value}`</p>)
+    // }
   
     const [defs ,setDefs] = useState([
       {
@@ -28,11 +28,9 @@ const Chart = () => {
       }
   ]);
   
-  // const [toggle, setToggle] = useState(true)
-  
   
     const handleClick = () =>{
-   
+      
   
             setDefs([
               {
@@ -53,6 +51,7 @@ const Chart = () => {
 
 
     return (
+      
         <div    className="App">
           <ResponsiveMarimekko
         data={data}
@@ -79,7 +78,12 @@ const Chart = () => {
         ]}
         innerPadding={12}
         axisTop={null}
-        onClick={clickHandler}
+        onClick={(data) => {
+          console.log(
+            `all the people that ${data["id"]} for ${data["key"]} = ${data["value"]}`
+          );
+          setContent(`all the people that ${data["id"]} for ${data["key"]} = ${data["value"]}`)
+        }}
         
         axisBottom={{
           orient: "bottom",
@@ -150,15 +154,16 @@ const Chart = () => {
 
 
       />
+        <div>{Content}</div>
     <button
       onClick={() => {
       handleClick()}}
     >
     Click Me
     </button>
-        {/* <StateButton clickHandler={clickHandler}  /> */}
+   
         </div>
-      
+
         
     );
 }
