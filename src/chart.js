@@ -3,24 +3,28 @@ import { ResponsiveMarimekko } from "@nivo/marimekko";
 import "./styles.css";
 import {data} from './data'
 import {useState} from 'react'
-// import StateButton from './Button'
+
+
 
 const Chart = () => {
 
+   //formatting x-axis & y-axis as percentage 
+    const format = v => `${v}%`
     
-  const [Content ,setContent] = useState('')
+    // State variable to add message when each bar is clicked
+    const [Content ,setContent] = useState('')
 
-    // const clickHandler = (data) =>{
-
-    //   console.log(`${data.key} = ${data.value}`)
-    //   setContent( <p>`${data.key} = ${data.value}`</p>)
-    // }
-  
+      const clickHandler = (data) =>{
+       console.log(`${data.key} = ${data.value}`)
+      setContent( <p>`${data.key} = ${data.value}`</p>)
+    }
+    
+    // button to change  Dell pattern lines from yellow to white
     const [defs ,setDefs] = useState([
       {
           id: 'lines',
           type: 'patternLines',
-          background: 'rgba(0, 0, 0, 0)',
+          background: 'yellow', 
           color: 'inherit',
           rotation: -45,
           lineWidth: 4,
@@ -29,14 +33,12 @@ const Chart = () => {
   ]);
   
   
-    const handleClick = () =>{
-      
-  
-            setDefs([
+    const colorChange = () =>{
+           setDefs([
               {
                   id: 'lines',
                   type: 'patternLines',
-                  background: 'green',
+                  background: 'white',
                   color: 'inherit',
                   rotation: -45,
                   lineWidth: 4,
@@ -44,9 +46,7 @@ const Chart = () => {
               }
           ])
          
-  
     }
-
 
 
 
@@ -55,55 +55,57 @@ const Chart = () => {
         <div    className="App">
           <ResponsiveMarimekko
         data={data}
-        id="statement"
-        value="participation"
+        id="Device"
+        value="marketShare"
+        
         // was camel cased
         dimensions={[
           {
-            id: "disagree strongly",
-            value: "stronglyDisagree"
+            id: "dell",
+            value: "Dell"
           },
           {
-            id: "disagree",
-            value: "disagree"
+            id: "sony",
+            value: "Sony"
           },
           {
-            id: "agree",
-            value: "agree"
+            id: "other",
+            value: "Other"
           },
-          {
-            id: "agree strongly",
-            value: "stronglyAgree"
-          }
+      
         ]}
         innerPadding={12}
         axisTop={null}
         onClick={(data) => {
           console.log(
-            `all the people that ${data["id"]} for ${data["key"]} = ${data["value"]}`
+            `${data["id"]} for ${data["key"]} = ${data["value"]}`
           );
    
-          setContent(` ${data["key"]} = ${data["value"]}`)
+          setContent(`  ${data["key"]} = ${data["value"]}%`)
         }}
         
         axisBottom={{
-          orient: "bottom",
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legendOffset: 36,
-          legendPosition: "middle"
+            format,
+            orient: 'bottom',
+            tickSize: 5,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: 'share of market',
+            legendOffset: 36,
+            legendPosition: 'middle'
         }}
         
         axisLeft={{
-          orient: "left",
-          tickSize: 5,
-          legend: "opinions",
-          tickPadding: 5,
-          tickRotation: 0,
-          legendOffset: -40,
-          legendPosition: "middle"
+            legend:'popularity',
+            orient: 'left',
+            tickSize: 5,
+            tickPadding: 4,
+            tickRotation: 0,
+            legendOffset: -60,
+            legendPosition: 'middle',
+         format
         }}
+        
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
         colors={{ scheme: "spectral" }}
         borderWidth={1}
@@ -113,13 +115,13 @@ const Chart = () => {
         fill={[
           {
             match: {
-              id: "agree strongly"
+              id: "dell"
             },
             id: "lines"
           },
           {
             match: {
-              id: "disagree strongly"
+              id: "dell"
             },
             id: "lines"
           }
@@ -155,10 +157,12 @@ const Chart = () => {
 
 
       />
-        <div>{Content}</div>
+        <div
+          // style={{display:"flex"}}
+        >{Content}</div>
     <button
       onClick={() => {
-      handleClick()}}
+      colorChange()}}
     >
     Click Me
     </button>

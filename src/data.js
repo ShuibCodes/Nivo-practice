@@ -2,20 +2,28 @@ export const data = [
   
   
   {
-    statement: "it's good",
-    participation: 30,
-    stronglyAgree: 30,
-    agree: 22,
-    disagree: 15,
-    stronglyDisagree: 26
+    Device: "Desktop",
+    marketShare:20,
+    Dell: 50,
+    Sony: 0,
+    Other:50,
+
   },
   {
-    statement: "it's sweet",
-    participation: 15,
-    stronglyAgree: 18,
-    agree: 27,
-    disagree: 1,
-    stronglyDisagree: 30
+    Device: "Laptop",
+    marketShare: 50,
+  
+    Dell: 20,
+    Sony: 20,
+    Other: 60,
   },
- 
+  {
+    Device: "Smartphone",
+    marketShare: 30,
+    // APV: 2540,
+    Dell: 10,
+    Sony: 10,
+    Other: 80,
+  },
+  
 ]
