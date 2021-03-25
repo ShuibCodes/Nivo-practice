@@ -9,15 +9,15 @@ import {useState} from 'react'
 const Chart = () => {
 
    //formatting x-axis & y-axis as percentage 
-    const format = v => `${v}%`
+    // const format = v => `${v}%`
     
     // State variable to add message when each bar is clicked
-    const [Content ,setContent] = useState('')
+    // const [Content ,setContent] = useState('')
 
-      const clickHandler = (data) =>{
-       console.log(`${data.key} = ${data.value}`)
-      setContent( <p>`${data.key} = ${data.value}`</p>)
-    }
+    //   const clickHandler = (data) =>{
+    //    console.log(`${data.key} = ${data.value}`)
+    //   setContent( <p>`${data.key} = ${data.value}`</p>)
+    // }
     
     // button to change  Dell pattern lines from yellow to white
     const [defs ,setDefs] = useState([
@@ -55,37 +55,30 @@ const Chart = () => {
         <div    className="App">
           <ResponsiveMarimekko
         data={data}
-        id="Device"
-        value="marketShare"
+        id="Date"
+        value="TempAvgF"
         
         // was camel cased
         dimensions={[
           {
-            id: "dell",
-            value: "Dell"
+            id: "Date",
+            value: "AvgTempF"
           },
-          {
-            id: "sony",
-            value: "Sony"
-          },
-          {
-            id: "other",
-            value: "Other"
-          },
+        
       
         ]}
         innerPadding={12}
         axisTop={null}
-        onClick={(data) => {
-          console.log(
-            `${data["id"]} for ${data["key"]} = ${data["value"]}`
-          );
+        // onClick={(data) => {
+        //   console.log(
+        //     `${data["id"]} for ${data["key"]} = ${data["value"]}`
+        //   );
    
-          setContent(`  ${data["key"]} = ${data["value"]}%`)
-        }}
+        //   setContent(`  ${data["key"]} = ${data["value"]}%`)
+        // }}
         
         axisBottom={{
-            format,
+          
             orient: 'bottom',
             tickSize: 5,
             tickPadding: 5,
@@ -93,17 +86,19 @@ const Chart = () => {
             legend: 'share of market',
             legendOffset: 36,
             legendPosition: 'middle'
+            
         }}
+      
         
         axisLeft={{
-            legend:'popularity',
+            legend:'count',
             orient: 'left',
             tickSize: 5,
             tickPadding: 4,
             tickRotation: 0,
             legendOffset: -60,
             legendPosition: 'middle',
-         format
+  
         }}
         
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
@@ -112,20 +107,20 @@ const Chart = () => {
         borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
       
         defs={defs}
-        fill={[
-          {
-            match: {
-              id: "dell"
-            },
-            id: "lines"
-          },
-          {
-            match: {
-              id: "dell"
-            },
-            id: "lines"
-          }
-        ]}
+        // fill={[
+        //   {
+        //     match: {
+        //       id: "dell"
+        //     },
+        //     id: "lines"
+        //   },
+        //   {
+        //     match: {
+        //       id: "dell"
+        //     },
+        //     id: "lines"
+        //   }
+        // ]}
         legends={[
             {
                 anchor: 'bottom',
@@ -157,9 +152,9 @@ const Chart = () => {
 
 
       />
-        <div
+        {/* <div
           // style={{display:"flex"}}
-        >{Content}</div>
+        >{Content}</div> */}
     <button
       onClick={() => {
       colorChange()}}
