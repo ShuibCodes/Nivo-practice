@@ -7,17 +7,12 @@ import {useState} from 'react'
 
 
 const Chart = () => {
+  const myFunc = () => {
 
-   //formatting x-axis & y-axis as percentage 
-    // const format = v => `${v}%`
-    
-    // State variable to add message when each bar is clicked
-    // const [Content ,setContent] = useState('')
+    let result = data.map(item => item.AvgTempF)
+      return result
+   } 
 
-    //   const clickHandler = (data) =>{
-    //    console.log(`${data.key} = ${data.value}`)
-    //   setContent( <p>`${data.key} = ${data.value}`</p>)
-    // }
     
     // button to change  Dell pattern lines from yellow to white
     const [defs ,setDefs] = useState([
@@ -55,8 +50,8 @@ const Chart = () => {
         <div    className="App">
           <ResponsiveMarimekko
         data={data}
-        id="Date"
-        value="TempAvgF"
+        id={myFunc}
+        value={"AvgTempF"}
         
         // was camel cased
         dimensions={[
@@ -69,21 +64,13 @@ const Chart = () => {
         ]}
         innerPadding={12}
         axisTop={null}
-        // onClick={(data) => {
-        //   console.log(
-        //     `${data["id"]} for ${data["key"]} = ${data["value"]}`
-        //   );
-   
-        //   setContent(`  ${data["key"]} = ${data["value"]}%`)
-        // }}
-        
-        axisBottom={{
+          axisBottom={{
           
             orient: 'bottom',
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'share of market',
+            legend: 'temp',
             legendOffset: 36,
             legendPosition: 'middle'
             
@@ -105,22 +92,7 @@ const Chart = () => {
         colors={{ scheme: "spectral" }}
         borderWidth={1}
         borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
-      
         defs={defs}
-        // fill={[
-        //   {
-        //     match: {
-        //       id: "dell"
-        //     },
-        //     id: "lines"
-        //   },
-        //   {
-        //     match: {
-        //       id: "dell"
-        //     },
-        //     id: "lines"
-        //   }
-        // ]}
         legends={[
             {
                 anchor: 'bottom',
@@ -157,7 +129,7 @@ const Chart = () => {
         >{Content}</div> */}
     <button
       onClick={() => {
-      colorChange()}}
+        }}
     >
     Click Me
     </button>
