@@ -7,11 +7,20 @@ import {useState} from 'react'
 
 
 const Chart = () => {
-  const myFunc = () => {
 
-    let result = data.map(item => item.AvgTempF)
-      return result
-   } 
+    
+        let result = data.map(item => item.AvgTempF )
+        let max = (Math.max(...result))
+        let min = (Math.min(...result))
+        let bin = (max-min)/10
+        console.log(bin)
+
+
+    
+    // x-axis needs to be avg temp lowest to highst 
+    // rn each bar is AvgTEmp, diffeernt thickness 
+    // need to have binsize of 10 each bar should be same thickenss
+   
 
     
     // button to change  Dell pattern lines from yellow to white
@@ -50,31 +59,32 @@ const Chart = () => {
         <div    className="App">
           <ResponsiveMarimekko
         data={data}
-        id={myFunc}
+        id='AvgTempF'
         value={"AvgTempF"}
         
         // was camel cased
         dimensions={[
           {
-            id: "Date",
-            value: "AvgTempF"
+            id: "AvgTempF",
+            value: 'AvgTempF',
           },
         
       
         ]}
         innerPadding={12}
         axisTop={null}
-          axisBottom={{
+          axisBottom={
+        {
           
-            orient: 'bottom',
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: 'temp',
-            legendOffset: 36,
-            legendPosition: 'middle'
-            
-        }}
+          orient: "bottom",
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: "AvgTemp",
+          legendOffset: 36,
+          legendPosition: "middle"
+        }
+        }
       
         
         axisLeft={{
