@@ -1,6 +1,15 @@
 export const data = [
   {
+    
+      
+      AvgTempF: 30,
+      Date: "2013-12-19",
+    }, {
  
+      AvgTempF: 30,
+      Date: "2013-12-20",
+    },
+    {
     AvgTempF: 30,
     Date: "2013-12-21",
   },
