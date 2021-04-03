@@ -5,11 +5,14 @@ import { data } from "./data";
 import { useState } from "react";
 
 
+
 const Chart = () => {
 
-  const format = (v) => `${v}%`;
+  const [binsize, setBinsize] = useState(10)
 
-  
+ const changeBin = (e) => {
+    setBinsize(e.target.value)
+ }
 
 
 
@@ -19,21 +22,16 @@ const getBins = (data,binsize,Temp) => {
   const max = Math.floor(Math.max (...data.map((e)=>e[Temp]))/binsize)*binsize
   const arr = []
 // looping thru  each number < 100, then adding 6 to that number, then going to next number. i is added to the binSize (5), then next binsize will be i + 5
-for(let i = 0; i <= max;   i  = i+ binsize){
+for(let i = 0; i <= max; i = i+ binsize){
   arr.push({binStart:i, binsize})
 }
 arr.forEach((d)=>{
   // return count if current temp is more than 1st binstart AND temp, and less than 2nd binStart and binsze . length 
-  
   // for each object, take the AvgTemp, if its bigger than binStart and temp, AND smaller than binstart of next one and binsze, return it as count
-
-
-   return d.count = Math.floor((data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize).length) /  Temp.length * 100)
-  
+   d.count = Math.floor((data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize).length))
 
 
 })
-
 
 console.log(arr)
 return arr
@@ -41,14 +39,8 @@ return arr
 
 const range = (arr) => {
   const num = arr.binStart
-  
   return `${num} to ${num + arr.binsize}`
-
 }
-
-
-
-
 
 
 // console.log([1,2,4].filter((d)=>d >= 2 && d < 3).length)
@@ -82,13 +74,13 @@ const range = (arr) => {
   return (
     <div className="App">
       <ResponsiveMarimekko
-        data={getBins(data, 10 ,'AvgTempF')}
+        data={getBins(data,binsize,'TempAvgF')}
         id= {range}
         value='binsize'
         // was camel cased
         dimensions={[
           {
-            id: "", //count
+            id: "", // days?
             value: "count"
           }
         ]}
@@ -102,6 +94,7 @@ const range = (arr) => {
           legend: "AvgTemp",
           legendOffset: 36,
           legendPosition: "middle"
+          
         }}
         axisLeft={{
           legend: "count",
@@ -111,7 +104,8 @@ const range = (arr) => {
           tickRotation: 0,
           legendOffset: -60,
           legendPosition: "middle",
-          format
+          
+          
          
         }}
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
@@ -134,6 +128,7 @@ const range = (arr) => {
             itemOpacity: 1,
             symbolSize: 18,
             symbolShape: "square",
+            
             effects: [
               {
                 on: "hover",
@@ -148,7 +143,9 @@ const range = (arr) => {
       {/* <div
           // style={{display:"flex"}}
         >{Content}</div> */}
-      <button onClick={() => {}}>Click Me</button>
+      <input type="number" onChange={changeBin(e)} >
+
+      </input>
     </div>
   );
 };
