@@ -8,13 +8,12 @@ import { useState } from "react";
 
 const Chart = () => {
 
-  const [binsize, setBinsize] = useState(10)
+  const [binsize, setBinsize] = useState(5)
 
  const changeBin = (e) => {
-    setBinsize(e.target.value)
+    setBinsize(parseInt(e.target.value))
+    console.log(parseInt(e.target.value))
  }
-
-
 
 const getBins = (data,binsize,Temp) => {
   // getting min and max  
@@ -33,7 +32,9 @@ arr.forEach((d)=>{
 
 })
 
+
 console.log(arr)
+
 return arr
 }
 
@@ -75,7 +76,7 @@ const range = (arr) => {
     <div className="App">
       <ResponsiveMarimekko
         data={getBins(data,binsize,'TempAvgF')}
-        id= {range}
+        id={range}
         value='binsize'
         // was camel cased
         dimensions={[
@@ -143,7 +144,7 @@ const range = (arr) => {
       {/* <div
           // style={{display:"flex"}}
         >{Content}</div> */}
-      <input type="number" onChange={changeBin(e)} >
+      <input type="number" value={binsize}  onChange={(e) => {changeBin(e)}}>
 
       </input>
     </div>
