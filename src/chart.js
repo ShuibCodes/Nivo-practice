@@ -3,50 +3,114 @@ import { ResponsiveMarimekko } from "@nivo/marimekko";
 import "./styles.css";
 import { data } from "./data";
 import { useState } from "react";
+import { usePartialTheme } from "@nivo/core";
+import Table from 'react-bootstrap/Table'
+
 
 
 
 const Chart = () => {
 
+  const dates = () =>{
+    let date = ['2014-4-4', '2014-5-4', '2015-4-4', '2015-3-4']
+     let dates = date.map((d) =>{
+           if(d.substring(0,4) === '2014'){
+             return d
+           }
+        })
+        
+        console.log(dates)
+      // dates.forEach((e)=>{
+      //   if(dates === '2014'){
+      //     console.log('')
+      //   }
+      // }) 
+  }
+
+  dates()
+
+  // y-axis formatting 
+
+  const format = (v) => `${v}%`
+
   const [binsize, setBinsize] = useState(5)
+  const [temps, setTemps] = useState('')
+  const [Dates,setDates] = useState('') //empty table?
 
  const changeBin = (e) => {
+   
     setBinsize(parseInt(e.target.value))
-    console.log(parseInt(e.target.value))
+    // console.log(parseInt(e.target.value))
  }
 
-const getBins = (data,binsize,Temp) => {
+const getBins = (data,binsize,Temp, Date) => {
   // getting min and max  
   const min = Math.floor(Math.min(...data.map((e)=>e[Temp]))/binsize)*binsize
   const max = Math.floor(Math.max (...data.map((e)=>e[Temp]))/binsize)*binsize
   const arr = []
 // looping thru  each number < 100, then adding 6 to that number, then going to next number. i is added to the binSize (5), then next binsize will be i + 5
-for(let i = 0; i <= max; i = i+ binsize){
+for(let i = min; i <= max; i = i+ binsize){
   arr.push({binStart:i, binsize})
 }
+console.log(arr)
 arr.forEach((d)=>{
   // return count if current temp is more than 1st binstart AND temp, and less than 2nd binStart and binsze . length 
   // for each object, take the AvgTemp, if its bigger than binStart and temp, AND smaller than binstart of next one and binsze, return it as count
-   d.count = Math.floor((data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize).length))
-
+   d.count = Math.floor(data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize).length/data.length * 100)
+   d.results = data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize)
 
 })
 
 
-console.log(arr)
+
 
 return arr
 }
 
+
+
+
+
+// table function 
+const table = (data) =>{
+
+
+
+const newArr= data.datum.dimensions[0].datum.data.results.map((d) =>{
+ 
+    return d.Date
+
+
+})
+
+console.log(newArr)
+const Temps = data.datum.id
+setTemps(Temps)
+setDates(newArr)
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function to display the range of temperatures in a given bar (for the tooltip)
 const range = (arr) => {
   const num = arr.binStart
   return `${num} to ${num + arr.binsize}`
 }
 
-
-// console.log([1,2,4].filter((d)=>d >= 2 && d < 3).length)
-  // x-axis needs to be avg temp lowest to highst
-  // need to have binsize of 10 each bar should be same thickenss
   // button to change  Dell pattern lines from yellow to white
   const [defs, setDefs] = useState([
     {
@@ -75,10 +139,12 @@ const range = (arr) => {
   return (
     <div className="App">
       <ResponsiveMarimekko
-        data={getBins(data,binsize,'TempAvgF')}
+        data={getBins(data,binsize,'TempAvgF', 'Date')}
         id={range}
         value='binsize'
-        // was camel cased
+        onClick={table}
+          // for each bar, map out count as dates with each temp next to it 
+ 
         dimensions={[
           {
             id: "", // days?
@@ -94,7 +160,8 @@ const range = (arr) => {
           tickRotation: 0,
           legend: "AvgTemp",
           legendOffset: 36,
-          legendPosition: "middle"
+          legendPosition: "middle",
+
           
         }}
         axisLeft={{
@@ -105,8 +172,7 @@ const range = (arr) => {
           tickRotation: 0,
           legendOffset: -60,
           legendPosition: "middle",
-          
-          
+          format
          
         }}
         margin={{ top: 40, right: 80, bottom: 100, left: 80 }}
@@ -129,7 +195,7 @@ const range = (arr) => {
             itemOpacity: 1,
             symbolSize: 18,
             symbolShape: "square",
-            
+
             effects: [
               {
                 on: "hover",
@@ -147,7 +213,53 @@ const range = (arr) => {
       <input type="number" value={binsize}  onChange={(e) => {changeBin(e)}}>
 
       </input>
+      <div>
+        {/* <h4>{temps}</h4>
+        <li> {Dates}</li> */}
+      </div>
+
+      <Table striped bordered hover size="sm">
+  <thead>
+    <tr>
+    
+      <th>Temp Range</th>
+      <th>Date</th>
+  
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{temps}</td>
+      <td>{Dates[1]}</td>
+ 
+    </tr>
+    <tr>
+      <td></td>
+      <td>{Dates[2]}</td>
+
+  
+    </tr>
+    <tr>
+      <td></td>
+      <td>{Dates[3]}</td>
+
+    </tr>
+    <tr>
+      <td></td>
+      <td>{Dates[4]}</td>
+
+    </tr>
+    <tr>
+      <td></td>
+      <td>{Dates[5]}</td>
+
+    </tr>
+  </tbody>
+</Table>
     </div>
   );
 };
 export default Chart
+
+
