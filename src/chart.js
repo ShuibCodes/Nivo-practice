@@ -6,28 +6,11 @@ import { useState } from "react";
 import { usePartialTheme } from "@nivo/core";
 import Table from 'react-bootstrap/Table'
 
-
+  
+  
 
 
 const Chart = () => {
-
-  const dates = () =>{
-    let date = ['2014-4-4', '2014-5-4', '2015-4-4', '2015-3-4']
-     let dates = date.map((d) =>{
-           if(d.substring(0,4) === '2014'){
-             return d
-           }
-        })
-        
-        console.log(dates)
-      // dates.forEach((e)=>{
-      //   if(dates === '2014'){
-      //     console.log('')
-      //   }
-      // }) 
-  }
-
-  dates()
 
   // y-axis formatting 
 
@@ -44,66 +27,43 @@ const Chart = () => {
  }
 
 const getBins = (data,binsize,Temp, Date) => {
-  // getting min and max  
-  const min = Math.floor(Math.min(...data.map((e)=>e[Temp]))/binsize)*binsize
-  const max = Math.floor(Math.max (...data.map((e)=>e[Temp]))/binsize)*binsize
-  const arr = []
-// looping thru  each number < 100, then adding 6 to that number, then going to next number. i is added to the binSize (5), then next binsize will be i + 5
-for(let i = min; i <= max; i = i+ binsize){
-  arr.push({binStart:i, binsize})
-}
-console.log(arr)
-arr.forEach((d)=>{
-  // return count if current temp is more than 1st binstart AND temp, and less than 2nd binStart and binsze . length 
-  // for each object, take the AvgTemp, if its bigger than binStart and temp, AND smaller than binstart of next one and binsze, return it as count
-   d.count = Math.floor(data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize).length/data.length * 100)
-   d.results = data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize)
-
-})
-
-
-
-
-return arr
-}
-
-
-
-
+    // getting min and max  
+    const min = Math.floor(Math.min(...data.map((e)=>e[Temp]))/binsize)*binsize
+    const max = Math.floor(Math.max (...data.map((e)=>e[Temp]))/binsize)*binsize
+    const arr = []
+  // looping thru  each number < 100, then adding 6 to that number, then going to next number. i is added to the binSize (5), then next binsize will be i + 5
+  for(let i = min; i <= max; i = i+ binsize){
+    arr.push({binStart:i, binsize})
+  }
+  console.log(arr)
+  arr.forEach((d)=>{
+    // return count if current temp is more than 1st binstart AND temp, and less than 2nd binStart and binsze . length 
+    // for each object, take the AvgTemp, if its bigger than binStart and temp, AND smaller than binstart of next one and binsze, return it as count
+    d.count = Math.floor(data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize).length/data.length * 100)
+    d.results = data.filter((e)=>e[Temp] >= d.binStart && e[Temp] < d.binStart + binsize)
+  })
+  return arr
+} 
 
 // table function 
 const table = (data) =>{
+    let newArr= data.datum.dimensions[0].datum.data.results.map((d) => d.Date)
+    console.log(newArr)
+    const Temps = data.datum.id
+    setTemps(Temps)
+    // const dates = newArr.filter((d) => d.substring(0, 4) === '2014');
+    setDates(newArr)
 
-
-
-const newArr= data.datum.dimensions[0].datum.data.results.map((d) =>{
- 
-    return d.Date
-
-
-})
-
-console.log(newArr)
-const Temps = data.datum.id
-setTemps(Temps)
-setDates(newArr)
-
-
+    // const dates = date.filter((d) => d.substring(0, 4) === '2014');
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+const getYears = () =>{
+      // get array 2014 years only 
+    const four = Dates
+    const fourteen = four.filter((d) => d.substring(0, 4) === '2014');
+     console.log(fourteen)
+}
 
 // function to display the range of temperatures in a given bar (for the tooltip)
 const range = (arr) => {
@@ -143,6 +103,14 @@ const range = (arr) => {
         id={range}
         value='binsize'
         onClick={table}
+        // onClick={() =>setString(
+        //   dates.map((e =>{
+        //     return(
+        //       <li>{e}</li>
+        //     )
+        //   }))
+        // )}
+   
           // for each bar, map out count as dates with each temp next to it 
  
         dimensions={[
@@ -213,10 +181,9 @@ const range = (arr) => {
       <input type="number" value={binsize}  onChange={(e) => {changeBin(e)}}>
 
       </input>
-      <div>
-        {/* <h4>{temps}</h4>
-        <li> {Dates}</li> */}
-      </div>
+          <div>
+            <button onClick={getYears} >2014</button>
+          </div>
 
       <Table striped bordered hover size="sm">
   <thead>
