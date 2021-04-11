@@ -61,8 +61,10 @@ const table = (data) =>{
 const getYears = () =>{
       // get array 2014 years only 
     const four = Dates
-    const fourteen = four.filter((d) => d.substring(0, 4) === '2014');
+    const fourteen = four.filter((d) => d.includes('-08-'));
      console.log(fourteen)
+
+     
 }
 
 // function to display the range of temperatures in a given bar (for the tooltip)
