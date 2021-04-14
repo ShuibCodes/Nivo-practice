@@ -19,7 +19,7 @@ const Chart = () => {
   const [binsize, setBinsize] = useState(5)
   const [temps, setTemps] = useState('')
   const [Dates,setDates] = useState('') //empty table?
-
+  const [years, setYears] = useState([])
  const changeBin = (e) => {
    
     setBinsize(parseInt(e.target.value))
@@ -46,25 +46,32 @@ const getBins = (data,binsize,Temp, Date) => {
 } 
 
 // table function 
+
 const table = (data) =>{
     let newArr= data.datum.dimensions[0].datum.data.results.map((d) => d.Date)
     console.log(newArr)
     const Temps = data.datum.id
     setTemps(Temps)
-    // const dates = newArr.filter((d) => d.substring(0, 4) === '2014');
     setDates(newArr)
-
-    // const dates = date.filter((d) => d.substring(0, 4) === '2014');
-
+    setYears(newArr)
 }
 
-const getYears = () =>{
+const getFourteen = (e) =>{
       // get array 2014 years only 
     const four = Dates
-    const fourteen = four.filter((d) => d.includes('-08-'));
-     console.log(fourteen)
-
+    const fourteen = four.filter((d) => d.includes('2014') && d.includes('-01-'));
+    console.log(fourteen)
+    setYears(fourteen)
      
+}
+
+const getFifteen = (e) =>{
+  // get array 2014 years only 
+const five = Dates
+const fifteen = five.filter((d) => d.includes('2015'));
+console.log(fifteen)
+setYears(fifteen)
+ 
 }
 
 // function to display the range of temperatures in a given bar (for the tooltip)
@@ -183,17 +190,31 @@ const range = (arr) => {
       <input type="number" value={binsize}  onChange={(e) => {changeBin(e)}}>
 
       </input>
-          <div>
+          {/* <div>
             <button onClick={getYears} >2014</button>
-          </div>
+          </div> */}
 
       <Table striped bordered hover size="sm">
   <thead>
     <tr>
     
       <th>Temp Range</th>
-      <th>Date</th>
-  
+      <th>Date</th> 
+      <th>Year
+      <select name="Years" id="year"
+        onChange={(e) => {
+            if(e.target.value === '2014'){
+                getFourteen()
+            } else if(e.target.value === '2015'){
+              getFifteen()
+            }
+        }}
+      >
+          <option value='2014'  >2014</option>
+          <option value='2015' >2015</option>
+      </select>
+      </th>
+        
     </tr>
   </thead>
   <tbody>
@@ -201,28 +222,28 @@ const range = (arr) => {
 
       <td>{temps}</td>
       <td>{Dates[1]}</td>
- 
+      <td>{years[1]}</td>
     </tr>
     <tr>
       <td></td>
       <td>{Dates[2]}</td>
-
+      <td>{years[2]}</td>
   
     </tr>
     <tr>
       <td></td>
-      <td>{Dates[3]}</td>
-
+      <td>{Dates[3]}</td> 
+      <td>{years[3]}</td>
     </tr>
     <tr>
       <td></td>
       <td>{Dates[4]}</td>
-
+      <td>{years[4]}</td>
     </tr>
     <tr>
       <td></td>
       <td>{Dates[5]}</td>
-
+      <td>{years[5]}</td>
     </tr>
   </tbody>
 </Table>
