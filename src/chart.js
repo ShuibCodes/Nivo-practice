@@ -59,7 +59,7 @@ const table = (data) =>{
 const getFourteen = (e) =>{
       // get array 2014 years only 
     const four = Dates
-    const fourteen = four.filter((d) => d.includes('2014') && d.includes('-01-'));
+    const fourteen = four.filter((d) => d.includes('2014') && d.includes('-08-')); // year and month of august 
     console.log(fourteen)
     setYears(fourteen)
      
@@ -244,6 +244,28 @@ const range = (arr) => {
       <td></td>
       <td>{Dates[5]}</td>
       <td>{years[5]}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>{Dates[6]}</td>
+      <td>{years[6]}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>{Dates[7]}</td>
+      <td>{years[7]}</td>
+    </tr>  <tr>
+      <td></td>
+      <td>{Dates[8]}</td>
+      <td>{years[8]}</td>
+    </tr>  <tr>
+      <td></td>
+      <td>{Dates[9]}</td>
+      <td>{years[9]}</td>
+    </tr>  <tr>
+      <td></td>
+      <td>{Dates[10]}</td>
+      <td>{years[10]}</td>
     </tr>
   </tbody>
 </Table>
