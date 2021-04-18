@@ -12,6 +12,11 @@ import Table from 'react-bootstrap/Table'
 
 const Chart = () => {
 
+
+
+
+
+
   // y-axis formatting 
 
   const format = (v) => `${v}%`
@@ -19,7 +24,13 @@ const Chart = () => {
   const [binsize, setBinsize] = useState(5)
   const [temps, setTemps] = useState('')
   const [Dates,setDates] = useState('') //empty table?
-  const [years, setYears] = useState([])
+  const [months, setMonths] = useState([])
+  
+
+
+
+
+
  const changeBin = (e) => {
    
     setBinsize(parseInt(e.target.value))
@@ -47,32 +58,34 @@ const getBins = (data,binsize,Temp, Date) => {
 
 // table function 
 
-const table = (data) =>{
+
+const table = (data ) =>{
+    // get array of dates when bar is clicked 
     let newArr= data.datum.dimensions[0].datum.data.results.map((d) => d.Date)
     console.log(newArr)
-    const Temps = data.datum.id
-    setTemps(Temps)
-    setDates(newArr)
-    setYears(newArr)
-}
 
-const getFourteen = (e) =>{
-      // get array 2014 years only 
-    const four = Dates
-    const fourteen = four.filter((d) => d.includes('2014') && d.includes('-08-')); // year and month of august 
-    console.log(fourteen)
-    setYears(fourteen)
-     
-}
+    // convert into Date object 
+    const datesArr = newArr.map(d => ({ date: new Date(d) , count : 0}))
+    console.log(datesArr)
 
-const getFifteen = (e) =>{
-  // get array 2014 years only 
-const five = Dates
-const fifteen = five.filter((d) => d.includes('2015'));
-console.log(fifteen)
-setYears(fifteen)
- 
+
+
+    // add month array with month as an integer and the the count of months (how many times each month shows up )
+    const monthArr = datesArr.map((e) => ({date: e.date.getMonth(), count: 0}))
+    monthArr.forEach((e) => e.count = datesArr.filter((d) => d.date.getMonth() === e.date).length)
+    console.log(monthArr)
+    setMonths(monthArr)
+
+    // each year 
+
+    const yearArr = datesArr.map((d) => ({year: d.date.getFullYear(), count: 0}))
+    yearArr.forEach((e) => e.count = datesArr.filter((d) => d.date.getFullYear() === d.date).length)
+    console.log(yearArr)
+  
+      
 }
+  
+
 
 // function to display the range of temperatures in a given bar (for the tooltip)
 const range = (arr) => {
@@ -112,15 +125,7 @@ const range = (arr) => {
         id={range}
         value='binsize'
         onClick={table}
-        // onClick={() =>setString(
-        //   dates.map((e =>{
-        //     return(
-        //       <li>{e}</li>
-        //     )
-        //   }))
-        // )}
-   
-          // for each bar, map out count as dates with each temp next to it 
+  
  
         dimensions={[
           {
@@ -190,85 +195,40 @@ const range = (arr) => {
       <input type="number" value={binsize}  onChange={(e) => {changeBin(e)}}>
 
       </input>
+
+        
           {/* <div>
             <button onClick={getYears} >2014</button>
           </div> */}
 
-      <Table striped bordered hover size="sm">
+      {/* <Table striped bordered hover size="sm">
   <thead>
     <tr>
-    
-      <th>Temp Range</th>
-      <th>Date</th> 
       <th>Year
-      <select name="Years" id="year"
+      <select name="format" id="format"
         onChange={(e) => {
-            if(e.target.value === '2014'){
-                getFourteen()
-            } else if(e.target.value === '2015'){
-              getFifteen()
-            }
+             table()
         }}
       >
-          <option value='2014'  >2014</option>
-          <option value='2015' >2015</option>
+          <option value='months'>months</option>
+          <option value='year'>year</option>
       </select>
       </th>
-        
+      <th>
+        count
+      </th>
     </tr>
   </thead>
   <tbody>
     <tr>
-
-      <td>{temps}</td>
-      <td>{Dates[1]}</td>
-      <td>{years[1]}</td>
+      <td>{months}</td>
+      <td>      </td>
     </tr>
-    <tr>
-      <td></td>
-      <td>{Dates[2]}</td>
-      <td>{years[2]}</td>
-  
-    </tr>
-    <tr>
-      <td></td>
-      <td>{Dates[3]}</td> 
-      <td>{years[3]}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>{Dates[4]}</td>
-      <td>{years[4]}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>{Dates[5]}</td>
-      <td>{years[5]}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>{Dates[6]}</td>
-      <td>{years[6]}</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>{Dates[7]}</td>
-      <td>{years[7]}</td>
-    </tr>  <tr>
-      <td></td>
-      <td>{Dates[8]}</td>
-      <td>{years[8]}</td>
-    </tr>  <tr>
-      <td></td>
-      <td>{Dates[9]}</td>
-      <td>{years[9]}</td>
-    </tr>  <tr>
-      <td></td>
-      <td>{Dates[10]}</td>
-      <td>{years[10]}</td>
-    </tr>
+    
   </tbody>
-</Table>
+</Table> */}
+
+
     </div>
   );
 };
