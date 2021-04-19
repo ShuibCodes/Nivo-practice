@@ -25,7 +25,7 @@ const Chart = () => {
   const [temps, setTemps] = useState('')
   const [Dates,setDates] = useState('') //empty table?
   const [months, setMonths] = useState([])
-  
+  const [year , setYear] = useState([])
 
 
 
@@ -59,7 +59,7 @@ const getBins = (data,binsize,Temp, Date) => {
 // table function 
 
 
-const table = (data ) =>{
+const table = (data, e ) =>{
     // get array of dates when bar is clicked 
     let newArr= data.datum.dimensions[0].datum.data.results.map((d) => d.Date)
     console.log(newArr)
@@ -69,22 +69,73 @@ const table = (data ) =>{
     console.log(datesArr)
 
 
-
+    
     // add month array with month as an integer and the the count of months (how many times each month shows up )
     const monthArr = datesArr.map((e) => ({date: e.date.getMonth(), count: 0}))
-    monthArr.forEach((e) => e.count = datesArr.filter((d) => d.date.getMonth() === e.date).length)
+   
     console.log(monthArr)
-    setMonths(monthArr)
+
+      // count up all months that match date, convert into sting versio of month 
+    const countMonth = newArr.reduce((acc, date) => {
+      const month = new Date(date).toLocaleString('default', { month: 'long' });
+      // acc = { date, count }
+      if (acc[month]) {
+        return {
+          ...acc,
+          [month]: {
+            date: month,
+            count: acc[month]["count"] + 1
+          }
+        };
+      }
+      return {
+        ...acc,
+        [month]: {
+          date: month,
+          count: 1
+        }
+      };
+    }, {});
+
+
+    console.log(countMonth)
+    setMonths(Object.values(countMonth))
+
 
     // each year 
 
     const yearArr = datesArr.map((d) => ({year: d.date.getFullYear(), count: 0}))
-    yearArr.forEach((e) => e.count = datesArr.filter((d) => d.date.getFullYear() === d.date).length)
     console.log(yearArr)
-  
+    const countYear = newArr.reduce((acc, date) => {
+      const years = new Date(date).getFullYear();
+      // acc = { date, count }
+      if (acc[years]) {
+        return {
+          ...acc,
+          [years]: {
+            date: years,
+            count: acc[years]["count"] + 1
+          }
+        };
+      }
+      return {
+        ...acc,
+        [years]: {
+          date: years,
+          count: 1
+        }
+      }
       
+    }
+    )
+    console.log(countYear)
+    setYear(Object.values(countYear))
+   
 }
   
+
+
+
 
 
 // function to display the range of temperatures in a given bar (for the tooltip)
@@ -125,7 +176,15 @@ const range = (arr) => {
         id={range}
         value='binsize'
         onClick={table}
-  
+        // onClick={() =>setString(
+        //   dates.map((e =>{
+        //     return(
+        //       <li>{e}</li>
+        //     )
+        //   }))
+        // )}
+   
+          // for each bar, map out count as dates with each temp next to it 
  
         dimensions={[
           {
@@ -196,39 +255,45 @@ const range = (arr) => {
 
       </input>
 
-        
-          {/* <div>
-            <button onClick={getYears} >2014</button>
-          </div> */}
-
-      {/* <Table striped bordered hover size="sm">
-  <thead>
-    <tr>
-      <th>Year
-      <select name="format" id="format"
-        onChange={(e) => {
-             table()
-        }}
-      >
-          <option value='months'>months</option>
-          <option value='year'>year</option>
-      </select>
-      </th>
-      <th>
-        count
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>{months}</td>
-      <td>      </td>
-    </tr>
-    
-  </tbody>
-</Table> */}
 
 
+      <Table striped bordered hover size="sm">
+      <thead>
+        <tr>
+          <th>
+            Month
+            <select name="format" id="format" onChange={(e)  => {
+              if(e.target.value !== 'months'){
+                  setMonths([])
+                  
+              } else if(e.target.value !== 'years'){
+                setYear([])
+              }
+            }}>
+              <option value="months">months</option>
+              <option value="year">year</option>
+            </select>
+          </th>
+          <th>count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {months.map(({ date, count }, index) => (
+          <tr key={index}>
+            <td>{date}</td>
+            <td>{count}</td>
+          </tr>
+        ))}
+      </tbody>
+      <tbody>
+        {year.map(({ date, count }, index) => (
+          <tr key={index}>
+            <td>{date}</td>
+            <td>{count}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
     </div>
   );
 };
