@@ -25,7 +25,7 @@ const Chart = () => {
   const [temps, setTemps] = useState('')
   const [Dates,setDates] = useState('') //empty table?
   const [months, setMonths] = useState([])
-  // const [year , setYear] = useState([])
+  const [year , setYear] = useState([])
 
 
 
@@ -104,11 +104,8 @@ const table = (data, e ) =>{
 
     // each year 
 
-    const yearArr = datesArr.map((d) => ({year: d.date.getFullYear()}))
-    console.log(yearArr)
     const countYear = newArr.reduce((acc, date) => {
       const years = new Date(date).getFullYear();
-      console.log(years)
       // acc = { date, count }
       if (acc[years]) {
         return {
@@ -125,46 +122,37 @@ const table = (data, e ) =>{
           date: years,
           count: 1
         }
-      }
-      
-    }
-    )
+      };
+    }, {});
 
     
-  
-   console.log(countYear)
-   const finalArr = Object.entries(countYear)
-   const thisOne = finalArr.filter((e) => e.includes('2014'))
-   console.log(thisOne)
- 
-    for(var i = 0; i < thisOne.length; i++) {
-    const cube = thisOne[i];
-    const showYears = cube[1]
-      console.log(showYears)
+    setYear(Object.values(countYear))  
+    console.log(countYear)
     
-
-
-        
-      
-}
+    
+} 
    
-}
+
 
       
-const handleChange = (e, countMonth,showYears) =>{
+const handleChange = (e, countMonth,countYear) =>{
 
       
-  if(e.target.value === 'months'){
+  if(e.target.value === months && countMonth){
+    setYear([])
     setMonths(countMonth)
-    console.log(showYears)
-  } else {
-    setMonths(showYears)
-  }
+    
   
+  } else if(e.target.value === year){
+    setYear(countYear)
+  }
+   
 
 
 
 }
+
+
 
 
 
@@ -294,8 +282,8 @@ const range = (arr) => {
             Month
             <select name="format" id="format"  onChange={(e) => {handleChange(e)}}
             >
-              <option value="months">months</option>
-              <option value="year">year</option>
+              <option value={months}>months</option>
+              <option value={year}>year</option>
             </select>
           </th>
           <th>count</th>
@@ -309,14 +297,14 @@ const range = (arr) => {
           </tr>
         ))}
       </tbody>
-      {/* <tbody>
+      <tbody>
         {year.map(({ date, count }, index) => (
           <tr key={index}>
             <td>{date}</td>
             <td>{count}</td>
           </tr>
         ))}
-      </tbody> */}
+      </tbody>
     </Table>
     </div>
   );
