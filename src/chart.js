@@ -99,7 +99,7 @@ const table = (data, e ) =>{
 
 
     console.log(countMonth)
-    setMonths(Object.values(countMonth))
+      setMonths(Object.values(countMonth))
 
 
     // each year 
@@ -129,11 +129,24 @@ const table = (data, e ) =>{
     }
     )
     console.log(countYear)
-    setYear(Object.values(countYear))
+  //  setYear(Object.values(countYear))
    
 }
-  
 
+      
+const handleChange = (e, countMonth,countYear) =>{
+
+      
+  if(e.target.value === 'months'){
+    setMonths(countMonth)
+
+  } else if( e.target.value === 'year'){
+    setMonths(countYear)
+  
+  }
+
+
+}
 
 
 
@@ -262,14 +275,8 @@ const range = (arr) => {
         <tr>
           <th>
             Month
-            <select name="format" id="format" onChange={(e)  => {
-              if(e.target.value !== 'months'){
-                  setMonths([])
-                  
-              } else if(e.target.value !== 'years'){
-                setYear([])
-              }
-            }}>
+            <select name="format" id="format"  onChange={(e) => {handleChange(e)}}
+            >
               <option value="months">months</option>
               <option value="year">year</option>
             </select>
@@ -278,21 +285,22 @@ const range = (arr) => {
         </tr>
       </thead>
       <tbody>
+        {
+          months.map(({ date, count }, index) => (
+          <tr key={index}>
+            <td>{date}</td>
+            <td>{count}</td>
+          </tr>
+        ))}
+      </tbody>
+      {/* <tbody>
         {months.map(({ date, count }, index) => (
           <tr key={index}>
             <td>{date}</td>
             <td>{count}</td>
           </tr>
         ))}
-      </tbody>
-      <tbody>
-        {year.map(({ date, count }, index) => (
-          <tr key={index}>
-            <td>{date}</td>
-            <td>{count}</td>
-          </tr>
-        ))}
-      </tbody>
+      </tbody> */}
     </Table>
     </div>
   );
