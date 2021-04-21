@@ -25,7 +25,7 @@ const Chart = () => {
   const [temps, setTemps] = useState('')
   const [Dates,setDates] = useState('') //empty table?
   const [months, setMonths] = useState([])
-  const [year , setYear] = useState([])
+  // const [year , setYear] = useState([])
 
 
 
@@ -104,10 +104,11 @@ const table = (data, e ) =>{
 
     // each year 
 
-    const yearArr = datesArr.map((d) => ({year: d.date.getFullYear(), count: 0}))
+    const yearArr = datesArr.map((d) => ({year: d.date.getFullYear()}))
     console.log(yearArr)
     const countYear = newArr.reduce((acc, date) => {
       const years = new Date(date).getFullYear();
+      console.log(years)
       // acc = { date, count }
       if (acc[years]) {
         return {
@@ -128,26 +129,42 @@ const table = (data, e ) =>{
       
     }
     )
-    console.log(countYear)
-  //  setYear(Object.values(countYear))
+
+    
+  
+   console.log(countYear)
+   const finalArr = Object.entries(countYear)
+   const thisOne = finalArr.filter((e) => e.includes('2014'))
+   console.log(thisOne)
+ 
+    for(var i = 0; i < thisOne.length; i++) {
+    const cube = thisOne[i];
+    const showYears = cube[1]
+      console.log(showYears)
+    
+
+
+        
+      
+}
    
 }
 
       
-const handleChange = (e, countMonth,countYear) =>{
+const handleChange = (e, countMonth,showYears) =>{
 
       
   if(e.target.value === 'months'){
     setMonths(countMonth)
-
-  } else if( e.target.value === 'year'){
-    setMonths(countYear)
-  
+    console.log(showYears)
+  } else {
+    setMonths(showYears)
   }
+  
+
 
 
 }
-
 
 
 
@@ -285,8 +302,7 @@ const range = (arr) => {
         </tr>
       </thead>
       <tbody>
-        {
-          months.map(({ date, count }, index) => (
+        {months.map(({ date, count }, index) => (
           <tr key={index}>
             <td>{date}</td>
             <td>{count}</td>
@@ -294,7 +310,7 @@ const range = (arr) => {
         ))}
       </tbody>
       {/* <tbody>
-        {months.map(({ date, count }, index) => (
+        {year.map(({ date, count }, index) => (
           <tr key={index}>
             <td>{date}</td>
             <td>{count}</td>
